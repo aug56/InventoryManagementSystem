@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Inventory System</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --bg-color: #f8fafc;
+            --text-color: #1e293b;
+            --border-color: #e2e8f0;
+            --danger-color: #ef4444;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* 🔗 NAVIGATION MENU STYLING */
+        .sidebar {
+            width: 240px;
+            background-color: #1e293b;
+            color: white;
+            padding: 2rem 1rem;
+            flex-shrink: 0;
+        }
+
+        .sidebar h1 {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            padding: 0 1rem;
+            color: #38bdf8;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .sidebar a:hover {
+            background-color: #334155;
+            color: white;
+        }
+
+        /* MAIN CONTENT AREA */
+        .main-content {
+            flex-grow: 1;
+            padding: 2rem 3rem;
+            overflow-x: hidden;
+        }
+
+        h2 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin-top: 0;
+            color: #0f172a;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: var(--border-color);
+            margin: 2rem 0;
+        }
+
+        /* 📊 TABLE STYLING */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        th {
+            background-color: #f1f5f9;
+            text-align: left;
+            padding: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.875rem;
+        }
+
+        tr:hover {
+            background-color: #f8fafc;
+        }
+
+        /* ACTION BUTTONS */
+        .delete-btn {
+            color: var(--danger-color);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.4rem 0.8rem;
+            border: 1px solid var(--danger-color);
+            border-radius: 0.375rem;
+            transition: all 0.2s;
+        }
+
+        .delete-btn:hover {
+            background-color: var(--danger-color);
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="sidebar">
+    <h1>Inventory Admin</h1>
+    <a href="/">Home</a>
+    <a href="/items">Items</a>
+    <a href="/items/new">Add Item</a>
+    <a href="/users">Manage Users</a>
+    <a href="/transactions/issue">Issue Asset</a>
+    <a href="/transactions/return">Return Asset</a>
+    <a href="/transactions/history">View History</a>
+</div>
+
+<div class="main-content">
+    <h2>Asset List</h2>
+    <hr>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Department</th>
+                <th>Assigned To</th>
+                <th>Status</th>
+                <th>Condition</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="a : ${assets}">
+                <td th:text="${a.id}"></td>
+                <td th:text="${a.deviceName}" style="font-weight: 500;"></td>
+                <td th:text="${a.deviceType}"></td>
+                <td th:text="${a.department}"></td>
+                <td th:text="${a.assignedTo}"></td>
+                <td>
+                    <span th:text="${a.status}"></span>
+                </td>
+                <td th:text="${a.conditionStatus}"></td>
+                <td>
+                    <a th:href="@{/delete/{id}(id=${a.id})}" class="delete-btn">Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

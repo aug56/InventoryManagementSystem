@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Item</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --bg-color: #f8fafc;
+            --text-color: #1e293b;
+            --border-color: #e2e8f0;
+            --sidebar-color: #1e293b;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* 🔗 SIDEBAR (Matches Previous Pages) */
+        .sidebar {
+            width: 240px;
+            background-color: var(--sidebar-color);
+            color: white;
+            padding: 2rem 1rem;
+            flex-shrink: 0;
+        }
+
+        .sidebar h1 {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            padding: 0 1rem;
+            color: #38bdf8;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .sidebar a:hover {
+            background-color: #334155;
+            color: white;
+        }
+
+        /* MAIN CONTENT AREA */
+        .main-content {
+            flex-grow: 1;
+            padding: 2rem 3rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        h2 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: #0f172a;
+        }
+
+        /* 📝 FORM STYLING */
+        form {
+            background: white;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #475569;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.625rem;
+            margin-bottom: 1.25rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.375rem;
+            box-sizing: border-box;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background-color: #1d4ed8;
+        }
+
+        .back-link {
+            margin-top: 1.5rem;
+            color: #64748b;
+            text-decoration: none;
+            font-size: 0.875rem;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <h1>Inventory Admin</h1>
+    <a href="/">Home</a>
+    <a href="/items">Items</a>
+    <a href="/items/new">Add Item</a>
+    <a href="/users">Manage Users</a>
+    <a href="/transactions/issue">Issue Asset</a>
+    <a href="/transactions/return">Return Asset</a>
+    <a href="/transactions/history">View History</a>
+</div>
+
+<div class="main-content">
+    <h2>Edit Item</h2>
+
+    <form action="/items/update" method="post">
+        <input type="hidden" name="id" th:value="${item.id}">
+
+        <label>Name:</label>
+        <input type="text" name="name" th:value="${item.name}">
+
+        <label>Category:</label>
+        <input type="text" name="category" th:value="${item.category}">
+
+        <label>Quantity:</label>
+        <input type="number" name="quantity" th:value="${item.quantity}">
+
+        <label>Location:</label>
+        <input type="text" name="location" th:value="${item.location}">
+
+        <button type="submit">Update Item</button>
+    </form>
+
+    <a href="/items" class="back-link">&larr; Back to Items List</a>
+</div>
+
+</body>
+</html>

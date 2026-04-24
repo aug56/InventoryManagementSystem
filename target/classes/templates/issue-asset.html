@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Issue Asset</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --bg-color: #f8fafc;
+            --text-color: #1e293b;
+            --border-color: #e2e8f0;
+            --sidebar-color: #1e293b;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* 🔗 SIDEBAR (Matches Previous Pages) */
+        .sidebar {
+            width: 240px;
+            background-color: var(--sidebar-color);
+            color: white;
+            padding: 2rem 1rem;
+            flex-shrink: 0;
+        }
+
+        .sidebar h1 {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            padding: 0 1rem;
+            color: #38bdf8;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .sidebar a:hover {
+            background-color: #334155;
+            color: white;
+        }
+
+        /* MAIN CONTENT AREA */
+        .main-content {
+            flex-grow: 1;
+            padding: 2rem 3rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        h2 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: #0f172a;
+        }
+
+        /* 📝 FORM STYLING */
+        form {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            width: 100%;
+            max-width: 550px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.6rem;
+            color: #475569;
+        }
+
+        select {
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            background-color: #fff;
+            font-size: 1rem;
+            color: var(--text-color);
+            appearance: none; /* Modern look */
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1em;
+            cursor: pointer;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+            transition: background 0.2s, transform 0.1s;
+            margin-top: 0.5rem;
+        }
+
+        button:hover {
+            background-color: #1d4ed8;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .back-link {
+            margin-top: 1.5rem;
+            color: #64748b;
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <h1>Inventory Admin</h1>
+    <a href="/">Home</a>
+    <a href="/items">Items</a>
+    <a href="/items/new">Add Item</a>
+    <a href="/users">Manage Users</a>
+    <a href="/transactions/issue">Issue Asset</a>
+    <a href="/transactions/return">Return Asset</a>
+    <a href="/transactions/history">View History</a>
+</div>
+
+<div class="main-content">
+    <h2>Issue Asset</h2>
+
+    <form action="issue" method="post">
+
+        <label>Select Asset:</label>
+        <select name="assetId" required>
+            <option value="" disabled selected>Choose an available asset...</option>
+            <option th:each="a : ${assets}"
+                    th:value="${a.id}"
+                    th:text="${a.deviceName + ' (' + a.status + ')'}">
+            </option>
+        </select>
+
+        <label>Select User:</label>
+        <select name="userId" required>
+            <option value="" disabled selected>Select the recipient...</option>
+            <option th:each="u : ${users}"
+                    th:value="${u.id}"
+                    th:text="${u.name}">
+            </option>
+        </select>
+
+        <button type="submit">Complete Issue</button>
+
+    </form>
+
+    <a href="/" class="back-link">&larr; Back to Dashboard</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Transaction History</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --bg-color: #f8fafc;
+            --text-color: #1e293b;
+            --border-color: #e2e8f0;
+            --sidebar-color: #1e293b;
+            --issue-bg: #dcfce7;
+            --issue-text: #166534;
+            --return-bg: #fee2e2;
+            --return-text: #991b1b;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* 🔗 SIDEBAR */
+        .sidebar {
+            width: 240px;
+            background-color: var(--sidebar-color);
+            color: white;
+            padding: 2rem 1rem;
+            flex-shrink: 0;
+        }
+
+        .sidebar h1 {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            padding: 0 1rem;
+            color: #38bdf8;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .sidebar a:hover {
+            background-color: #334155;
+            color: white;
+        }
+
+        /* MAIN CONTENT AREA */
+        .main-content {
+            flex-grow: 1;
+            padding: 2rem 3rem;
+            overflow-x: hidden;
+        }
+
+        h2 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 2rem;
+            color: #0f172a;
+        }
+
+        /* 📊 TABLE STYLING */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        th {
+            background-color: #f1f5f9;
+            text-align: left;
+            padding: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.875rem;
+        }
+
+        tr:hover {
+            background-color: #f8fafc;
+        }
+
+        /* ACTION BADGES */
+        .badge {
+            padding: 0.25rem 0.6rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+        .action-issue { background: var(--issue-bg); color: var(--issue-text); }
+        .action-return { background: var(--return-bg); color: var(--return-text); }
+
+        .footer-nav {
+            margin-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .footer-nav a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.875rem;
+            margin-right: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <h1>Inventory Admin</h1>
+    <a href="/">Home</a>
+    <a href="/items">Items</a>
+    <a href="/items/new">Add Item</a>
+    <a href="/users">Manage Users</a>
+    <a href="/transactions/issue">Issue Asset</a>
+    <a href="/transactions/return">Return Asset</a>
+    <a href="/transactions/history">View History</a>
+</div>
+
+<div class="main-content">
+    <h2>Asset Transaction History</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Asset Name</th>
+                <th>Assigned To</th>
+                <th>Action</th>
+                <th>Condition</th>
+                <th>Date</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="t : ${transactions}">
+                <td th:text="${t.id}"></td>
+                <td th:text="${t.asset != null ? t.asset.deviceName : 'N/A'}" style="font-weight: 500;"></td>
+                <td th:text="${t.user != null ? t.user.name : 'Unknown'}"></td>
+                <td>
+                    <span th:text="${t.action}" 
+                          th:classappend="${t.action == 'ISSUE' ? 'badge action-issue' : 'badge action-return'}"
+                          class="badge">
+                    </span>
+                </td>
+                <td th:text="${t.conditionStatus}"></td>
+                <td th:text="${t.date}"></td>
+                <td th:text="${t.notes}" style="color: #64748b; font-style: italic;"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="footer-nav">
+        <a href="/transactions/issue">Issue Asset</a>
+        <a href="/transactions/return">Return Asset</a>
+        <a href="/users">Users</a>
+    </div>
+</div>
+
+</body>
+</html>

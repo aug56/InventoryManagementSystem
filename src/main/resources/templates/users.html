@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Users List</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --bg-color: #f8fafc;
+            --text-color: #1e293b;
+            --border-color: #e2e8f0;
+            --danger-color: #ef4444;
+            --sidebar-color: #1e293b;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* 🔗 SIDEBAR (Matches previous pages) */
+        .sidebar {
+            width: 240px;
+            background-color: var(--sidebar-color);
+            color: white;
+            padding: 2rem 1rem;
+            flex-shrink: 0;
+        }
+
+        .sidebar h1 {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            padding: 0 1rem;
+            color: #38bdf8;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .sidebar a:hover {
+            background-color: #334155;
+            color: white;
+        }
+
+        /* MAIN CONTENT AREA */
+        .main-content {
+            flex-grow: 1;
+            padding: 2rem 3rem;
+            overflow-x: hidden;
+        }
+
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin: 0;
+            color: #0f172a;
+        }
+
+        /* ➕ ADD BUTTON */
+        .add-btn {
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: background 0.2s;
+        }
+
+        .add-btn:hover {
+            background-color: #1d4ed8;
+        }
+
+        /* 📊 TABLE STYLING */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        th {
+            background-color: #f1f5f9;
+            text-align: left;
+            padding: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.875rem;
+        }
+
+        tr:hover {
+            background-color: #f8fafc;
+        }
+
+        /* ACTION LINKS */
+        .action-link {
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .edit-link { color: var(--primary-color); }
+        .delete-link { color: var(--danger-color); }
+
+        /* STATUS BADGE (Optional flair) */
+        .role-tag {
+            background: #e2e8f0;
+            padding: 0.2rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <h1>Inventory Admin</h1>
+    <a href="/">Home</a>
+    <a href="/items">Items</a>
+    <a href="/items/new">Add Item</a>
+    <a href="/users">Manage Users</a>
+    <a href="/transactions/issue">Issue Asset</a>
+    <a href="/transactions/return">Return Asset</a>
+    <a href="/transactions/history">View History</a>
+</div>
+
+<div class="main-content">
+    <div class="header-section">
+        <h2>Users List</h2>
+        <a href="/users/new" class="add-btn">+ Add New User</a>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.name}" style="font-weight: 500;"></td>
+                <td th:text="${user.email}"></td>
+                <td><span class="role-tag" th:text="${user.role}"></span></td>
+                <td th:text="${user.status}"></td>
+                <td>
+                    <a th:href="@{'/users/edit/' + ${user.id}}" class="action-link edit-link">Edit</a> 
+                    <span style="color: #cbd5e1; margin: 0 4px;">|</span>
+                    <a th:href="@{'/users/delete/' + ${user.id}}" 
+                       class="action-link delete-link"
+                       onclick="return confirm('Are you sure?')">Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

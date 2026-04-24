@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<h2>Add Asset</h2>
+
+<form action="/save" method="post" th:object="${asset}">
+    Name: <input type="text" th:field="*{deviceName}" /><br>
+    Type: <input type="text" th:field="*{deviceType}" /><br>
+    Serial: <input type="text" th:field="*{serialNumber}" /><br>
+    Assigned To: <input type="text" th:field="*{assignedTo}" /><br>
+    Status: <input type="text" th:field="*{status}" /><br>
+    Condition: <input type="text" th:field="*{conditionStatus}" /><br>
+
+    <button type="submit">Save</button>
+</form>
+
+</body>
+</html>
